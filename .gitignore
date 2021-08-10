@@ -1,5 +1,6 @@
 out
 .vs
+CMakeSettings.json
 
 # Prerequisites
 *.d

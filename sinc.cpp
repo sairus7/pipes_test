@@ -1,6 +1,7 @@
 ﻿#include <fstream>
 #include <iostream>
 #include <chrono>
+#include <stddef.h>
 
 uint64_t nano() {
   return std::chrono::duration_cast<::std::chrono::nanoseconds>(
@@ -9,16 +10,21 @@ uint64_t nano() {
 }
 
 int main() {
-  std::ios_base::sync_with_stdio(false);
-  constexpr size_t cache_length = 128; //16384;
-  char cachebuffer[cache_length];
+  //std::ios_base::sync_with_stdio(false);
+  constexpr size_t cache_length = 1024;
+  int8_t cachebuffer[cache_length];
   uint64_t before = nano();
   size_t howmany = 0;
 
   while (std::cin) {
-    std::cin.read(cachebuffer, cache_length);
+    std::cin.read((char*)cachebuffer, cache_length);
     howmany += std::cin.gcount();
   }
+
+  // OR:
+  //while (fread(cachebuffer, sizeof(char), cache_length, stdin) != NULL) {
+  //  howmany += cache_length;
+  //}
 
   uint64_t after = nano();
   double giga = howmany / 1000000000.;
